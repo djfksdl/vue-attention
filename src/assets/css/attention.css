@@ -1,0 +1,86 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+body{
+    background-color: #FED900;
+}
+.wrap{
+    width: 1200px;
+    height: 100vh;
+    background-color: #fff;
+    margin: 0 auto;
+}
+.mainViewContainer{
+    color: #000;
+    margin: 0 auto;
+    background: #fff url(../images/mainSlide01.png) no-repeat center/contain;
+}
+.managerMenu{
+    margin-bottom: 580px;
+}
+.managerMenu .managerBtn{
+    width: 50px;
+}
+.mainBtn{
+    text-align: center;
+}
+.mainBtn button{
+    background-color: #FED900;
+    border: none;
+    width: 260px;
+    height: 260px;
+    border-radius: 50px;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 50px;
+}
+.mainBtn button:hover{
+    background-color: #31160B;
+    color: #fff;
+}
+
+/* 헤더 */
+header{
+    width: 100%;
+    height: 110px;
+    background-color: #31160B;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 0 25px;
+}
+header a.home{
+    width: 8%;
+    display: block;
+    margin-top: 23px;
+    margin-left: 5px;
+}
+a.home img {
+    width: 60px;
+}
+header ul{
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0 0 0;
+}
+header ul li{
+    text-align: center;
+    margin: 0 2px;
+}
+
+header ul li a{
+    width: 205px;
+    height: 75px;
+    background: #5e2d1a;
+    line-height: 80px;
+    display: block;
+    font-size: 22px;
+    /* font-weight: bold; */
+    color: #fff;
+    border-radius: 15px 15px 0 0;
+}
