@@ -143,7 +143,7 @@
  import '@/assets/css/order.css';
  import AppHeader from '@/components/AppHeader.vue';
  export default {
-    name: "OrderView",
+    name: "OrderCoffeeView",
     components: {
         AppHeader
     },
