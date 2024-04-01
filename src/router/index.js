@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import OrderCoffeeView from '@/views/main/OrderCoffeeView.vue'
+import OrderCofeeView from '@/views/main/OrderCofeeView.vue'
 
 const routes = [
   {
     path: '/ordercoffeeview',
     name: 'OrderCoffeeView',
-    component: OrderView
+    component: OrderCofeeView
   }
 ]
 

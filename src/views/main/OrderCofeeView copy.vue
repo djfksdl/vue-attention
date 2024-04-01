@@ -37,6 +37,26 @@
                         <div ><strong>Hot아메리카노</strong></div>
                         <div ><strong>2500</strong></div>
                     </li>
+                    <li>
+                        <img src="@/assets/images/coffee01.jpg">
+                        <div ><strong>Hot아메리카노</strong></div>
+                        <div ><strong>2500</strong></div>
+                    </li>
+                    <li>
+                        <img src="@/assets/images/coffee01.jpg">
+                        <div ><strong>Hot아메리카노</strong></div>
+                        <div ><strong>2500</strong></div>
+                    </li>
+                    <li>
+                        <img src="@/assets/images/coffee01.jpg">
+                        <div ><strong>Hot아메리카노</strong></div>
+                        <div ><strong>2500</strong></div>
+                    </li>
+                    <li>
+                        <img src="@/assets/images/coffee01.jpg">
+                        <div ><strong>Hot아메리카노</strong></div>
+                        <div ><strong>2500</strong></div>
+                    </li>
                     
                     <!-- 이미지반복영역 -->
                 </ul>
@@ -64,77 +84,63 @@
                                     <td><button>-</button>1<button>+</button></td>
                                     <td>2500</td>
                                 </tr>
-                                <tr>
-                                    <td>ICE아메리카노</td>
-                                    <td><button>-</button>1<button>+</button></td>
-                                    <td>2500</td>
-                                </tr>
-                                <tr>
-                                    <td>ICE아메리카노</td>
-                                    <td><button>-</button>1<button>+</button></td>
-                                    <td>2500</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- 결제하기 버튼 -->
                     <div class="orderBtn">
                         <p>총 금액: 5000 원</p>
-                        <button type="button" v-on:click="modalOpen">주문하기</button>
+                        <button type="button">주문하기</button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- 모달창 -->
-                <div class="modal" v-bind:class="{'modal-on': isMaodal}">
-                    <div class="modal-content">
-                        <div>
-                            <div class="Modal-top">
-                                <div class="m-header">주문 정보</div>
-                            </div>
-        
-                            <div class="m-body">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td>ICE아메리카노</td>
-                                            <td><button>-</button>1<button>+</button></td>
-                                            <td><button>삭제</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ICE아메리카노</td>
-                                            <td><button>-</button>1<button>+</button></td>
-                                            <td><button>삭제</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ICE아메리카노</td>
-                                            <td><button>-</button>1<button>+</button></td>
-                                            <td><button>삭제</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-        
-                            <div class="m-footer">
-                                <p>총 금액 : 5000원</p>
-                                <div class="btnBox">
-                                    <button type="button" v-on:click="modalClose">돌아가기</button>
-                                    <button type="button">결제하기</button>
-                                </div>
-                            </div>
+        <!-- 모달창 -->
+        <div class="modal">
+            <div class="modal-content">
+                <div>
+                    <div class="Modal-top">
+                        <div class="m-header">주문 정보</div>
+                    </div>
+
+                    <div class="m-body">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>ICE아메리카노</td>
+                                    <td><button>-</button>1<button>+</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ICE아메리카노</td>
+                                    <td><button>-</button>1<button>+</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ICE아메리카노</td>
+                                    <td><button>-</button>1<button>+</button></td>
+                                    <td><button>삭제</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="m-footer">
+                        <p>총 금액 : 5000원</p>
+                        <div class="btnBox">
+                            <button type="button">돌아가기</button>
+                            <button type="button">결제하기</button>
                         </div>
                     </div>
-        
                 </div>
-            </div><!--container끝-->
+            </div>
 
-            
-        </div><!--wrap 끝-->
-
+        </div>
     </div>
  </template>
  <script>
  import '@/assets/css/order.css';
- import '@/assets/css/scrollbar.module.css';
  import AppHeader from '@/components/AppHeader.vue';
  export default {
     name: "OrderCoffeeView",
@@ -142,24 +148,13 @@
         AppHeader
     },
     data() {
-        return {
-            // isMaodal:false
-        };
+        return {};
     },
     methods: {
         getList(){
             console.log("리스트 불러오기");
-
-        },
-        modalOpen(){//모달창 띄우기
-            // this.isMaodal= true
-            document.querySelector('.modal').style.display = "block"
-        },
-        modalClose(){
-            // this.isMaodal = false
-            document.querySelector('.modal').style.display = "none"
+            
         }
-
     },
     created(){
         this.getList();
