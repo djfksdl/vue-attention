@@ -60,7 +60,7 @@
     firstLink.style.color = "#000";
     firstLink.style.fontWeight = "bold";
     firstLink.style.height = "80px";
-}
+    }
  };
  </script>
  <style></style>

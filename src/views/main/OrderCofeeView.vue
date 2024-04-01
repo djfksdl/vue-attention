@@ -4,42 +4,27 @@
             <AppHeader/>
             <div class="container">
                 <!-- 메뉴 박스 -->
-                <ul class="menuBox">
-                    <!-- 이미지반복영역 -->
-                    <li>
-                        <img src="@/assets/images/coffee01.jpg">
-                        <div ><strong>Hot아메리카노</strong></div>
-                        <div ><strong>2500</strong></div>
-                    </li>
-                    <li>
-                        <img src="@/assets/images/coffee01.jpg">
-                        <div ><strong>Hot아메리카노</strong></div>
-                        <div ><strong>2500</strong></div>
-                    </li>
-                    <li>
-                        <img src="@/assets/images/coffee01.jpg">
-                        <div ><strong>Hot아메리카노</strong></div>
-                        <div ><strong>2500</strong></div>
-                    </li>
-                    <li>
-                        <img src="@/assets/images/coffee01.jpg">
-                        <div ><strong>Hot아메리카노</strong></div>
-                        <div ><strong>2500</strong></div>
-                    </li>
-                    <li>
-                        <img src="@/assets/images/coffee01.jpg">
-                        <div ><strong>Hot아메리카노</strong></div>
-                        <div ><strong>2500</strong></div>
-                    </li>
+                <div v-for="(row, i) in Math.ceil(productList.length / 3)" v-bind:key="i" class="row">
+                    <ul class="menuBox">
+                        <li v-for="(productVo, i) in productList.slice(i * 3, (i + 1) * 3)" v-bind:key="i" class="col-md-4">
+                            <div v-on:click="addCart(productVo.no)">
+                                <img v-bind:src="`http://localhost:9000/upload/${productVo.save_name}`">
+                                <div><strong>{{productVo.name}}</strong></div>
+                                <div><strong>{{productVo.price}}</strong></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-                    <li>
-                        <img src="@/assets/images/coffee01.jpg">
-                        <div ><strong>Hot아메리카노</strong></div>
-                        <div ><strong>2500</strong></div>
-                    </li>
-                    
-                    <!-- 이미지반복영역 -->
-                </ul>
+                <!-- <div v-for="(group, i) in groupedProductList" v-bind:key="i" class="row">
+                    <ul class="menuBox">
+                        <li v-for="(productVo, i) in group" v-bind:key="i" class="col-md-4">
+                        <img v-bind:src="`http://localhost:9000/upload/${productVo.save_name}`" />
+                        <div><strong>{{ productVo.name }}</strong></div>
+                        <div><strong>{{ productVo.price }}</strong></div>
+                        </li>
+                    </ul>
+                </div> -->
 
                 <!-- 선택한 상품 담는곳 + 결제하기 버튼 -->
                 <div class="bottomContainer">
@@ -55,25 +40,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>ICE아메리카노</td>
-                                    <td><button>-</button>1<button>+</button></td>
-                                    <td>2500</td>
+                                    <td>{{cartVo.name}}</td>
+                                    <td><button>-</button>{{ cartVo.count }}<button>+</button></td>
+                                    <td>{{ cartVo.price }}</td>
                                 </tr>
-                                <tr>
-                                    <td>ICE아메리카노</td>
-                                    <td><button>-</button>1<button>+</button></td>
-                                    <td>2500</td>
-                                </tr>
-                                <tr>
-                                    <td>ICE아메리카노</td>
-                                    <td><button>-</button>1<button>+</button></td>
-                                    <td>2500</td>
-                                </tr>
-                                <tr>
-                                    <td>ICE아메리카노</td>
-                                    <td><button>-</button>1<button>+</button></td>
-                                    <td>2500</td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -133,6 +104,7 @@
     </div>
  </template>
  <script>
+ import axios from 'axios'
  import '@/assets/css/order.css';
  import '@/assets/css/scrollbar.module.css';
  import AppHeader from '@/components/AppHeader.vue';
@@ -144,12 +116,54 @@
     data() {
         return {
             // isMaodal:false
+            productList:[],
+            cartVo:{
+                name:"",
+                count:"",
+                price:""
+            }
         };
     },
     methods: {
         getList(){
             console.log("리스트 불러오기");
+            axios({
+                method: 'get', // put, post, delete 
+                url: 'http://localhost:9000/attention',
+                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                // params: guestbookVo, //get방식 파라미터로 값이 전달
+                // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+                responseType: 'json' //수신타입
+            }).then(response => {
+                console.log(response); //수신데이타
+                console.log(response.data);
 
+                this.productList = response.data.apiData;
+
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        addCart(no){//장바구니에 추가하기
+            console.log(no);
+
+            axios({
+                method: 'get', // put, post, delete 
+                url: 'http://localhost:9000/attention/cart',
+                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                params: {no:no}, //get방식 파라미터로 값이 전달
+                // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+                responseType: 'json' //수신타입
+            }).then(response => {
+                console.log(response); //수신데이타
+                console.log(response.data.apiData.name);
+                this.cartVo = response.data.apiData;
+                // this.cartVo.push(cartVo);
+              
+
+            }).catch(error => {
+                console.log(error);
+            });
         },
         modalOpen(){//모달창 띄우기
             // this.isMaodal= true
@@ -158,12 +172,15 @@
         modalClose(){
             // this.isMaodal = false
             document.querySelector('.modal').style.display = "none"
-        }
+        },
 
     },
     created(){
         this.getList();
     }
+
  };
 </script>
- <style></style>
+ <style>
+
+</style>
