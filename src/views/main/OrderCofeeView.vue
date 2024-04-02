@@ -39,12 +39,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>{{cartVo.name}}</td>
-                                    <td><button>-</button>{{ cartVo.count }}<button>+</button></td>
+                                <tr v-for="(cartVo, i) in cartItems" v-bind:key="i">
+                                    <td>{{ cartVo.name }}</td>
+                                    <td>
+                                        <button v-on:click="minus(i)">-</button>
+                                        {{ cartVo.count }}
+                                        <button v-on:click="plus(i)">+</button>
+                                    </td>
                                     <td>{{ cartVo.price }}</td>
                                 </tr>
-                                
                             </tbody>
                         </table>
                     </div>
@@ -66,21 +69,16 @@
                             <div class="m-body">
                                 <table>
                                     <tbody>
-                                        <tr>
-                                            <td>ICE아메리카노</td>
-                                            <td><button>-</button>1<button>+</button></td>
+                                        <tr v-for="(cartVo, i) in cartItems" v-bind:key="i">
+                                            <td>{{cartVo.name}}</td>
+                                            <td>
+                                                <button v-on:click="minus(i)">-</button>
+                                                {{ cartVo.count }}
+                                                <button v-on:click="plus(i)">+</button>
+                                            </td>
                                             <td><button>삭제</button></td>
                                         </tr>
-                                        <tr>
-                                            <td>ICE아메리카노</td>
-                                            <td><button>-</button>1<button>+</button></td>
-                                            <td><button>삭제</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ICE아메리카노</td>
-                                            <td><button>-</button>1<button>+</button></td>
-                                            <td><button>삭제</button></td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -89,7 +87,7 @@
                                 <p>총 금액 : 5000원</p>
                                 <div class="btnBox">
                                     <button type="button" v-on:click="modalClose">돌아가기</button>
-                                    <button type="button">결제하기</button>
+                                    <button type="button" v-on:click="payment" >결제하기</button>
                                 </div>
                             </div>
                         </div>
@@ -117,11 +115,7 @@
         return {
             // isMaodal:false
             productList:[],
-            cartVo:{
-                name:"",
-                count:"",
-                price:""
-            }
+            cartItems: []
         };
     },
     methods: {
@@ -157,8 +151,36 @@
             }).then(response => {
                 console.log(response); //수신데이타
                 console.log(response.data.apiData.name);
-                this.cartVo = response.data.apiData;
-                // this.cartVo.push(cartVo);
+                let newItem = {
+                    name: response.data.apiData.name,
+                    price: response.data.apiData.price,
+                    count: 1
+                };
+                this.cartItems.push(newItem);
+              
+
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        payment(){
+            console.log("주문전달");
+            axios({
+                method: 'post', // put, post, delete 
+                url: 'http://localhost:9000/attention/cart',
+                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                // params: {no:no}, //get방식 파라미터로 값이 전달
+                // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+                responseType: 'json' //수신타입
+            }).then(response => {
+                console.log(response); //수신데이타
+                console.log(response.data.apiData.name);
+                let newItem = {
+                    name: response.data.apiData.name,
+                    price: response.data.apiData.price,
+                    count: 1
+                };
+                this.cartItems.push(newItem);
               
 
             }).catch(error => {
@@ -173,6 +195,17 @@
             // this.isMaodal = false
             document.querySelector('.modal').style.display = "none"
         },
+        minus(i) {
+        // console.log("마이너스")
+        if (this.cartItems[i].count > 1) {
+            this.cartItems[i].count--;
+            }
+        },
+        plus(i) {
+            // console.log("플러스")
+            this.cartItems[i].count++;
+        }
+
 
     },
     created(){

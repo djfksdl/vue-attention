@@ -160,7 +160,9 @@
 .modal .modal-content .m-body{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 325px;
+    margin-bottom: 200px;
+    overflow: auto;
+    max-height: 300px;
 }
 .modal .modal-content .m-body table{
     width: 100%;
