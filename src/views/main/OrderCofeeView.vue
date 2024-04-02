@@ -18,16 +18,18 @@
             </header>
             <div class="container">
                 <!-- 메뉴 박스 -->
-                <div v-for="(row, i) in Math.ceil(productList.length / 3)" v-bind:key="i" class="row">
-                    <ul class="menuBox">
-                        <li v-for="(productVo, i) in productList.slice(i * 3, (i + 1) * 3)" v-bind:key="i" class="col-md-4">
-                            <div v-on:click="addCart(productVo.no)">
-                                <img v-bind:src="`http://localhost:9000/upload/${productVo.save_name}`">
-                                <div><strong>{{productVo.name}}</strong></div>
-                                <div><strong>{{productVo.price}}</strong></div>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="menuContainer">
+                    <div v-for="(row, i) in Math.ceil(productList.length / 3)" v-bind:key="i" class="row">
+                        <ul class="menuBox">
+                            <li v-for="(productVo, i) in productList.slice(i * 3, (i + 1) * 3)" v-bind:key="i" class="col-md-4">
+                                <div v-on:click="addCart(productVo.no)">
+                                    <img v-bind:src="`http://localhost:9000/upload/${productVo.save_name}`">
+                                    <div><strong>{{productVo.name}}</strong></div>
+                                    <div><strong>{{productVo.price}}</strong></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- 선택한 상품 담는곳 + 결제하기 버튼 -->
@@ -109,6 +111,7 @@
  import axios from 'axios'
  import '@/assets/css/order.css';
  import '@/assets/css/scrollbar.module.css';
+
  export default {
     name: "OrderCoffeeView",
     components: {
@@ -142,7 +145,7 @@
             event.target.style.color = "#000";
             event.target.style.fontWeight = "bold";
             event.target.style.height = "80px";
-            
+
             this.getList();
 
         },
@@ -169,28 +172,37 @@
         addCart(no){//장바구니에 추가하기
             console.log(no);
 
-            axios({
-                method: 'get', // put, post, delete 
-                url: 'http://localhost:9000/attention/cart',
-                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
-                params: {no:no}, //get방식 파라미터로 값이 전달
-                // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
-                responseType: 'json' //수신타입
-            }).then(response => {
-                console.log(response); //수신데이타
-                console.log(response.data.apiData);
-                let newItem = {
-                    no: response.data.apiData.no,
-                    name: response.data.apiData.name,
-                    price: response.data.apiData.price,
-                    count: 1
-                };
-                this.cartItems.push(newItem);
-              
+            const existingItem = this.cartItems.find(item => item.no === no);
+            if(existingItem){
+                existingItem.count++;
+            }else{
+                axios({
+                    method: 'get', // put, post, delete 
+                    url: 'http://localhost:9000/attention/cart',
+                    headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+                    params: {no:no}, //get방식 파라미터로 값이 전달
+                    // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+                    responseType: 'json' //수신타입
+                }).then(response => {
+                    console.log(response); //수신데이타
+                    console.log(response.data.apiData);
+                    let newItem = {
+                        no: response.data.apiData.no,
+                        name: response.data.apiData.name,
+                        price: response.data.apiData.price,
+                        count: 1
+                    };
+    
+                    
+                        this.cartItems.push(newItem);
+                    
+                  
+    
+                }).catch(error => {
+                    console.log(error);
+                });
 
-            }).catch(error => {
-                console.log(error);
-            });
+            }
         },
         payment(){
             // console.log("주문전달");

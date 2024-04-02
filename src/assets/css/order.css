@@ -1,6 +1,10 @@
 .container{
     padding: 20px 50px 0;
 }
+.menuContainer{
+    max-height: 540px;
+    overflow: auto;
+}
 .menuBox{
     /* background-color: pink; */
     display: flex;
@@ -228,3 +232,30 @@
     background-color: #31160B;
 }
 
+/* 슬라이드 */
+.carousel__item {
+	color: var(--vc-clr-white);
+	font-size: 20px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.carousel__slide {
+	padding: 10px;
+}
+
+.carousel__prev,
+.carousel__next {
+	box-sizing: content-box;
+	border: 5px solid white;
+}
+.slideImg {
+	max-height: 740px;
+	max-width: 100%;
+}
+
+.wrapper {
+	margin-top: 3vh;
+}
