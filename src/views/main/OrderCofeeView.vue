@@ -1,7 +1,21 @@
 <template>
     <div>
         <div class="wrap">
-            <AppHeader/>
+            <header>
+                <div class="headerBoxOne">
+                    <img src="@/assets/images/attention.png">
+                </div>
+                <div class="headerBoxTwo">
+                    <a href="" class="home"><img src="@/assets/images/home_icon.png" alt=""></a>
+                    <ul>
+                        <li v-on:click="bColorChange('커피', $event)"><a href="#">커피</a></li>
+                        <li v-on:click="bColorChange('논커피', $event)"><a href="#">논커피</a></li>
+                        <li v-on:click="bColorChange('밀크쉐이크', $event)"><a href="#">밀크쉐이크</a></li>
+                        <li v-on:click="bColorChange('스무디/프라페', $event)"><a href="#">스무디/프라페</a></li>
+                        <li v-on:click="bColorChange('디저트', $event)"><a href="#">디저트</a></li>
+                    </ul>
+                </div>
+            </header>
             <div class="container">
                 <!-- 메뉴 박스 -->
                 <div v-for="(row, i) in Math.ceil(productList.length / 3)" v-bind:key="i" class="row">
@@ -15,16 +29,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- <div v-for="(group, i) in groupedProductList" v-bind:key="i" class="row">
-                    <ul class="menuBox">
-                        <li v-for="(productVo, i) in group" v-bind:key="i" class="col-md-4">
-                        <img v-bind:src="`http://localhost:9000/upload/${productVo.save_name}`" />
-                        <div><strong>{{ productVo.name }}</strong></div>
-                        <div><strong>{{ productVo.price }}</strong></div>
-                        </li>
-                    </ul>
-                </div> -->
 
                 <!-- 선택한 상품 담는곳 + 결제하기 버튼 -->
                 <div class="bottomContainer">
@@ -76,7 +80,7 @@
                                                 {{ cartVo.count }}
                                                 <button v-on:click="plus(i)">+</button>
                                             </td>
-                                            <td><button>삭제</button></td>
+                                            <td><button type="button" v-on:click="deleteCartVo(cartVo.no)">삭제</button></td>
                                         </tr>
                                         
                                     </tbody>
@@ -105,27 +109,50 @@
  import axios from 'axios'
  import '@/assets/css/order.css';
  import '@/assets/css/scrollbar.module.css';
- import AppHeader from '@/components/AppHeader.vue';
  export default {
     name: "OrderCoffeeView",
     components: {
-        AppHeader
     },
     data() {
         return {
             // isMaodal:false
             productList:[],
-            cartItems: []
+            cartItems: [],
+            category: "커피"
         };
     },
     methods: {
+        bColorChange(categoryName, event) {
+            console.log(categoryName);
+            this.category = categoryName;
+            
+            // 모든 li 요소의 하위 a 요소를 선택합니다.
+            const links = document.querySelectorAll("li a");
+            // console.log(this.category);
+            // 각 요소에 대해 반복하여 초기화 설정
+            links.forEach(link => {
+                link.style.backgroundColor = "#5e2d1a";
+                link.style.color = "#fff";
+                link.style.fontWeight = "normal";
+                link.style.height = "75px";
+            });
+
+            // 클릭한 요소의 변경
+            event.target.style.backgroundColor = "#fff";
+            event.target.style.color = "#000";
+            event.target.style.fontWeight = "bold";
+            event.target.style.height = "80px";
+            
+            this.getList();
+
+        },
         getList(){
             console.log("리스트 불러오기");
             axios({
                 method: 'get', // put, post, delete 
                 url: 'http://localhost:9000/attention',
                 headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
-                // params: guestbookVo, //get방식 파라미터로 값이 전달
+                params: {category: this.category}, //get방식 파라미터로 값이 전달
                 // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
                 responseType: 'json' //수신타입
             }).then(response => {
@@ -133,6 +160,7 @@
                 console.log(response.data);
 
                 this.productList = response.data.apiData;
+                // console.log()
 
             }).catch(error => {
                 console.log(error);
@@ -150,8 +178,9 @@
                 responseType: 'json' //수신타입
             }).then(response => {
                 console.log(response); //수신데이타
-                console.log(response.data.apiData.name);
+                console.log(response.data.apiData);
                 let newItem = {
+                    no: response.data.apiData.no,
                     name: response.data.apiData.name,
                     price: response.data.apiData.price,
                     count: 1
@@ -164,28 +193,22 @@
             });
         },
         payment(){
-            console.log("주문전달");
-            axios({
-                method: 'post', // put, post, delete 
-                url: 'http://localhost:9000/attention/cart',
-                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
-                // params: {no:no}, //get방식 파라미터로 값이 전달
-                // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
-                responseType: 'json' //수신타입
-            }).then(response => {
-                console.log(response); //수신데이타
-                console.log(response.data.apiData.name);
-                let newItem = {
-                    name: response.data.apiData.name,
-                    price: response.data.apiData.price,
-                    count: 1
-                };
-                this.cartItems.push(newItem);
-              
+            // console.log("주문전달");
+            console.log(this.cartItems)
 
-            }).catch(error => {
-                console.log(error);
-            });
+            //vuex에 넣기
+            this.$store.commit("setCartList",this.cartItems);
+        },
+        deleteCartVo(no){
+            // console.log("삭제버튼");
+            console.log(no);
+
+            const index = this.cartItems.findIndex(item => item.no === no);
+            if (index !== -1) {
+                // 해당 항목이 배열에 존재하면 삭제
+                this.cartItems.splice(index, 1);
+            }
+
         },
         modalOpen(){//모달창 띄우기
             // this.isMaodal= true
@@ -210,6 +233,16 @@
     },
     created(){
         this.getList();
+    },
+    mounted() {
+        // 페이지가 로드되고 첫 번째 li 요소의 하위 a 요소를 선택합니다.
+        const firstLink = document.querySelector("li:first-child a");
+
+        // 선택한 요소의 배경색을 변경합니다.
+        firstLink.style.backgroundColor = "#fff";
+        firstLink.style.color = "#000";
+        firstLink.style.fontWeight = "bold";
+        firstLink.style.height = "80px";
     }
 
  };

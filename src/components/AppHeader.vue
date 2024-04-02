@@ -7,11 +7,11 @@
             <div class="headerBoxTwo">
                 <a href="" class="home"><img src="@/assets/images/home_icon.png" alt=""></a>
                 <ul>
-                    <li v-on:click="bColorChange"><a href="#">커피</a></li>
-                    <li v-on:click="bColorChange"><a href="#">논커피</a></li>
-                    <li v-on:click="bColorChange"><a href="#">밀크쉐이크</a></li>
-                    <li v-on:click="bColorChange"><a href="#">스무디/프라페</a></li>
-                    <li v-on:click="bColorChange"><a href="#">디저트</a></li>
+                    <li v-on:click="bColorChange('커피')"><a href="#">커피</a></li>
+                    <li v-on:click="bColorChange('논커피')"><a href="#">논커피</a></li>
+                    <li v-on:click="bColorChange('밀크쉐이크')"><a href="#">밀크쉐이크</a></li>
+                    <li v-on:click="bColorChange('스무디/프라페')"><a href="#">스무디/프라페</a></li>
+                    <li v-on:click="bColorChange('디저트')"><a href="#">디저트</a></li>
                 </ul>
             </div>
         </header>
