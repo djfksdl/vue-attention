@@ -24,12 +24,19 @@
     border: 1px solid #ddd;
     border-radius: 15px;
     margin-bottom: 15px;
+    overflow: hidden;
 }
 
 .menuBox li img{
     width: 140px;
-
+    margin-bottom: 5px;
+    
 }
+.menuBox  li div:hover img{
+    transform: scale(1.1) ;
+    transition: all 0.3s;
+}
+
 
 /* 선택한 상품 담는곳 + 결제하기 버튼 */
 .bottomContainer{
@@ -99,18 +106,36 @@
     width: 20px;
     height: 20px;
     margin: 0 5px;
+    background-color: #5e2d1a;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 21px;
+    cursor: pointer;
+}
+.bottomContainer .selectItem table td button:hover{
+    background-color: #FED900;
+    color: #5e2d1a;
 }
 
 /* 결제하기 버튼 */
 .bottomContainer .orderBtn{
     width: 25%;
-    text-align: center;
+    /* text-align: center; */
 
 }
 .bottomContainer .orderBtn p{
     font-size: 23px;
     font-weight: bold;
-    line-height: 85px;
+    line-height: 50px;
+    /* padding-left: 10px; */
+    /* text-align: center; */
+}
+.bottomContainer .orderBtn p:first-child{
+    font-size: 15px;
+    line-height: 20px;
 }
 .bottomContainer .orderBtn button{
     background-color: #FED900;
@@ -120,6 +145,7 @@
     border-radius: 15px;
     font-size: 20px;
     border: none;
+    margin-top: 15px;
 }
 
 .bottomContainer .orderBtn button:hover{
@@ -190,7 +216,20 @@
 }
 .modal .modal-content .m-body table td:nth-child(2) button{
     width: 20px;
+    height: 20px;
     margin: 0 5px;
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 21px;
+    cursor: pointer;
+    border: none;
+    background-color: #5e2d1a;
+}
+.modal .modal-content .m-body table td:nth-child(2) button:hover{
+    background-color: #FED900;
+    color: #5e2d1a;
 }
 .modal .modal-content .m-body table td:last-child{
     width: 20%;
@@ -201,6 +240,12 @@
     border-radius: 10px;
     padding: 10px 20px;
     color: #fff;
+    cursor: pointer;
+}
+.modal .modal-content .m-body table td:last-child button:hover{
+    background-color: #FED900;
+    color: #5e2d1a;
+    font-weight: bold;
 }
 
 .m-footer{
@@ -230,32 +275,4 @@
 .modal .modal-content .m-footer .btnBox button:hover{
     color: #fff;
     background-color: #31160B;
-}
-
-/* 슬라이드 */
-.carousel__item {
-	color: var(--vc-clr-white);
-	font-size: 20px;
-	border-radius: 8px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.carousel__slide {
-	padding: 10px;
-}
-
-.carousel__prev,
-.carousel__next {
-	box-sizing: content-box;
-	border: 5px solid white;
-}
-.slideImg {
-	max-height: 740px;
-	max-width: 100%;
-}
-
-.wrapper {
-	margin-top: 3vh;
 }

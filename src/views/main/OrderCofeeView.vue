@@ -3,7 +3,7 @@
         <div class="wrap">
             <header>
                 <div class="headerBoxOne">
-                    <img src="@/assets/images/attention.png">
+                    <img src="@/assets/images/logo.png">
                 </div>
                 <div class="headerBoxTwo">
                     <a href="" class="home"><img src="@/assets/images/home_icon.png" alt=""></a>
@@ -25,7 +25,7 @@
                                 <div v-on:click="addCart(productVo.no)">
                                     <img v-bind:src="`http://localhost:9000/upload/${productVo.save_name}`">
                                     <div><strong>{{productVo.name}}</strong></div>
-                                    <div><strong>{{productVo.price}}</strong></div>
+                                    <div><strong>{{numberWithCommas(productVo.price)}}</strong></div>
                                 </div>
                             </li>
                         </ul>
@@ -52,14 +52,15 @@
                                         {{ cartVo.count }}
                                         <button v-on:click="plus(i)">+</button>
                                     </td>
-                                    <td>{{ cartVo.price }}</td>
+                                    <td>{{ numberWithCommas(cartVo.price *cartVo.count) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- 결제하기 버튼 -->
                     <div class="orderBtn">
-                        <p>총 금액: 5000 원</p>
+                        <p>결제할 금액</p>
+                        <p>&#8361; {{ numberWithCommas(totalAmount) }} 원</p>
                         <button type="button" v-on:click="modalOpen">주문하기</button>
                     </div>
                 </div>
@@ -90,7 +91,7 @@
                             </div>
         
                             <div class="m-footer">
-                                <p>총 금액 : 5000원</p>
+                                <p>총 금액 : &#8361;{{ numberWithCommas(totalAmount) }}원</p>
                                 <div class="btnBox">
                                     <button type="button" v-on:click="modalClose">돌아가기</button>
                                     <button type="button" v-on:click="payment" >결제하기</button>
@@ -239,9 +240,18 @@
         plus(i) {
             // console.log("플러스")
             this.cartItems[i].count++;
-        }
+        },
+        numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        },
 
 
+    },
+    computed: {
+        totalAmount() {
+        // Calculate the total amount based on items in the cart
+        return this.cartItems.reduce((total, item) => total + item.price * item.count, 0);
+        },
     },
     created(){
         this.getList();
