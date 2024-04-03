@@ -78,7 +78,6 @@ body{
 .mainViewContainer{
     color: #000;
     margin: 0 auto;
-    background: #fff url(../images/mainSlide01.png) no-repeat center/contain;
 }
 .managerMenu{
     margin-bottom: 580px;
