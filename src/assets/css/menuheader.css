@@ -14,6 +14,67 @@ body{
     background-color: #fff;
     margin: 0 auto;
 }
+
+/* 헤더 */
+.menuheader{
+    width: 100%;
+    height: 183px;
+    background-color: #31160B;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    padding: 0 15px;
+}
+.menuheader .headerBoxOne{
+    width: 100%;
+    /* background-color: aquamarine; */
+    /* height: 50px; */
+}
+.menuheader .headerBoxOne img{
+    width: 320px;
+    display: block;
+    /* background-color: pink; */
+    margin: 0 auto;
+    padding-top: 8px;
+}
+.menuheader .headerBoxTwo{
+    display: flex;
+    width: 100%;
+    /* background-color: seagreen; */
+    /* height: 50px; */
+}
+.menuheader .headerBoxTwo a.home{
+    width: 8%;
+    display: block;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+.menuheader .headerBoxTwo a.home img {
+    width: 50px;
+}
+.menuheader .headerBoxTwo  ul{
+    display: flex;
+    justify-content: space-between;
+    /* padding: 10px 0 0 0; */
+}
+.menuheader .headerBoxTwo ul li{
+    text-align: center;
+    margin: 0 2px;
+}
+
+
+.menuheader .headerBoxTwo ul li a{
+    width: 140px;
+    height: 75px;
+    background: #5e2d1a;
+    /* background: #52200d; */
+    line-height: 80px;
+    display: block;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 15px 15px 0 0;
+}
+
 .mainViewContainer{
     color: #000;
     margin: 0 auto;
@@ -44,65 +105,7 @@ body{
     color: #fff;
 }
 
-/* 헤더 */
-header{
-    width: 100%;
-    height: 183px;
-    background-color: #31160B;
-    /* display: flex; */
-    /* justify-content: space-between; */
-    /* align-items: center; */
-    padding: 0 15px;
-}
-header .headerBoxOne{
-    width: 100%;
-    /* background-color: aquamarine; */
-    /* height: 50px; */
-}
-header .headerBoxOne img{
-    width: 320px;
-    display: block;
-    /* background-color: pink; */
-    margin: 0 auto;
-    padding-top: 8px;
-}
-header .headerBoxTwo{
-    display: flex;
-    width: 100%;
-    /* background-color: seagreen; */
-    /* height: 50px; */
-}
-header .headerBoxTwo a.home{
-    width: 8%;
-    display: block;
-    margin-top: 15px;
-    margin-right: 10px;
-}
-header .headerBoxTwo a.home img {
-    width: 50px;
-}
-header .headerBoxTwo  ul{
-    display: flex;
-    justify-content: space-between;
-    /* padding: 10px 0 0 0; */
-}
-header .headerBoxTwo ul li{
-    text-align: center;
-    margin: 0 2px;
-}
 
-
-header .headerBoxTwo ul li a{
-    width: 140px;
-    height: 75px;
-    background: #5e2d1a;
-    /* background: #52200d; */
-    line-height: 80px;
-    display: block;
-    font-size: 20px;
-    color: #fff;
-    border-radius: 15px 15px 0 0;
-}
 
 .active {
     background-color: #fff; /* 배경색 변경 */

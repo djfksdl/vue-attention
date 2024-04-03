@@ -3,7 +3,7 @@
         <div class="wrap">
 
             <!-- ======== 카테고리 헤더 ======== -->
-            <header>
+            <header class="menuheader">
                 <div class="headerBoxOne">
                     <img src="@/assets/images/logo.png">
                 </div>
@@ -113,6 +113,7 @@
  <script>
  import axios from 'axios'
  import '@/assets/css/mainmenu.css';
+ import '@/assets/css/menuheader.css';
  import '@/assets/css/scrollbar.module.css';
 
  export default {
