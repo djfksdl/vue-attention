@@ -110,11 +110,11 @@
  </template>
  <script>
  import axios from 'axios'
- import '@/assets/css/order.css';
+ import '@/assets/css/mainmenu.css';
  import '@/assets/css/scrollbar.module.css';
 
  export default {
-    name: "OrderCoffeeView",
+    name: "MainMenu",
     components: {
     },
     data() {
