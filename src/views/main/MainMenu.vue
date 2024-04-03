@@ -1,6 +1,8 @@
 <template>
     <div>
         <div class="wrap">
+
+            <!-- ======== 카테고리 헤더 ======== -->
             <header>
                 <div class="headerBoxOne">
                     <img src="@/assets/images/logo.png">
@@ -16,8 +18,10 @@
                     </ul>
                 </div>
             </header>
+
+            <!-- ======== 내용 나오는곳 ======== -->
             <div class="container">
-                <!-- 메뉴 박스 -->
+                <!-- 메뉴 리스트 -->
                 <div class="menuContainer">
                     <div v-for="(row, i) in Math.ceil(productList.length / 3)" v-bind:key="i" class="row">
                         <ul class="menuBox">
@@ -32,9 +36,9 @@
                     </div>
                 </div>
 
-                <!-- 선택한 상품 담는곳 + 결제하기 버튼 -->
+                <!-- 장바구니 + 결제하기 버튼 -->
                 <div class="bottomContainer">
-                    <!-- 선택한 상품 담기 -->
+                    <!-- 장바구니 -->
                     <div class="selectItem">
                         <table>
                             <thead>
@@ -65,7 +69,7 @@
                     </div>
                 </div>
 
-                <!-- 모달창 -->
+                <!-- ======== 모달창 ======== -->
                 <div class="modal" v-bind:class="{'modal-on': isMaodal}">
                     <div class="modal-content">
                         <div>
@@ -102,8 +106,6 @@
         
                 </div>
             </div><!--container끝-->
-
-            
         </div><!--wrap 끝-->
 
     </div>
@@ -122,18 +124,19 @@
             // isMaodal:false
             productList:[],
             cartItems: [],
-            category: "커피"
+            category: "커피",
+            total: 0
         };
     },
     methods: {
+        //======== 메뉴 클릭했을때 스타일 변경 ========
         bColorChange(categoryName, event) {
             console.log(categoryName);
             this.category = categoryName;
             
-            // 모든 li 요소의 하위 a 요소를 선택합니다.
             const links = document.querySelectorAll("li a");
-            // console.log(this.category);
-            // 각 요소에 대해 반복하여 초기화 설정
+
+            // 반복하여 초기화 설정
             links.forEach(link => {
                 link.style.backgroundColor = "#5e2d1a";
                 link.style.color = "#fff";
@@ -141,7 +144,7 @@
                 link.style.height = "75px";
             });
 
-            // 클릭한 요소의 변경
+            //변경되는 부분 설정
             event.target.style.backgroundColor = "#fff";
             event.target.style.color = "#000";
             event.target.style.fontWeight = "bold";
@@ -150,27 +153,29 @@
             this.getList();
 
         },
+        //======== 첫화면 리스트 불러오기 ========
         getList(){
-            console.log("리스트 불러오기");
             axios({
-                method: 'get', // put, post, delete 
-                url: 'http://localhost:9000/attention',
-                headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
-                params: {category: this.category}, //get방식 파라미터로 값이 전달
-                // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
-                responseType: 'json' //수신타입
+                method: 'get', 
+                url: 'http://localhost:9000/attention/mainmenu',
+                headers: { "Content-Type": "application/json; charset=utf-8" }, 
+                params: {category: this.category}, 
+               
+                responseType: 'json' 
             }).then(response => {
-                console.log(response); //수신데이타
+                console.log(response); 
                 console.log(response.data);
 
                 this.productList = response.data.apiData;
-                // console.log()
+                console.log(this.productList)
 
             }).catch(error => {
                 console.log(error);
             });
         },
-        addCart(no){//장바구니에 추가하기
+
+        //======== 선택한 상품 장바구니에 담기 ========
+        addCart(no){
             console.log(no);
 
             const existingItem = this.cartItems.find(item => item.no === no);
@@ -178,26 +183,26 @@
                 existingItem.count++;
             }else{
                 axios({
-                    method: 'get', // put, post, delete 
-                    url: 'http://localhost:9000/attention/cart',
-                    headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
-                    params: {no:no}, //get방식 파라미터로 값이 전달
-                    // data: guestbookVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
-                    responseType: 'json' //수신타입
+                    method: 'get', 
+                    url: 'http://localhost:9000/attention/mainmenu/cart',
+                    headers: { "Content-Type": "application/json; charset=utf-8" }, 
+                    params: {no:no}, 
+
+                    responseType: 'json' 
                 }).then(response => {
-                    console.log(response); //수신데이타
+                    console.log(response); 
                     console.log(response.data.apiData);
+
                     let newItem = {
                         no: response.data.apiData.no,
                         name: response.data.apiData.name,
                         price: response.data.apiData.price,
                         count: 1
                     };
-    
-                    
-                        this.cartItems.push(newItem);
-                    
-                  
+
+                    this.cartItems.push(newItem);
+
+                    console.log("cartItems"+this.cartItems);
     
                 }).catch(error => {
                     console.log(error);
@@ -205,42 +210,54 @@
 
             }
         },
+
+        //======== 장바구니 목록 vuew에 담기 ========
         payment(){
-            // console.log("주문전달");
-            console.log(this.cartItems)
 
-            //vuex에 넣기
             this.$store.commit("setCartList",this.cartItems);
-        },
-        deleteCartVo(no){
-            // console.log("삭제버튼");
-            console.log(no);
+            this.$store.commit("setTotal",this.total);
 
+            console.log(this.$store.state.cartList);
+            console.log(this.$store.state.cartList[0]);
+            console.log(this.$store.state.cartList[0].name);
+        
+        },
+
+        //======== 리스트에서 한개 삭제하기 ========
+        deleteCartVo(no){ 
             const index = this.cartItems.findIndex(item => item.no === no);
+
             if (index !== -1) {
                 // 해당 항목이 배열에 존재하면 삭제
                 this.cartItems.splice(index, 1);
             }
-
         },
-        modalOpen(){//모달창 띄우기
+
+        //======== 모달창 띄우기 ========
+        modalOpen(){
             // this.isMaodal= true
             document.querySelector('.modal').style.display = "block"
         },
+
+        //======== 모달창 닫기 ========
         modalClose(){
             // this.isMaodal = false
             document.querySelector('.modal').style.display = "none"
         },
+
+        //======== 빼기 버튼 ========
         minus(i) {
-        // console.log("마이너스")
-        if (this.cartItems[i].count > 1) {
-            this.cartItems[i].count--;
-            }
+            if (this.cartItems[i].count > 1) {
+                    this.cartItems[i].count--;
+                }
         },
+
+        //======== 더하기 버튼 ========
         plus(i) {
-            // console.log("플러스")
             this.cartItems[i].count++;
         },
+
+        //======== 천단위고 ,넣기 ========
         numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         },
@@ -248,23 +265,34 @@
 
     },
     computed: {
+
+        //======== 총 금액 계산 ========
         totalAmount() {
-        // Calculate the total amount based on items in the cart
-        return this.cartItems.reduce((total, item) => total + item.price * item.count, 0);
+            return this.cartItems.reduce((total, item) => total + item.price * item.count, 0);
         },
+
+    },
+    watch:{
+        totalAmount(newTotal) {
+            this.total = newTotal;
+        }
     },
     created(){
+
+        //======== 전체 리스트 불러오기 ========
         this.getList();
+
     },
     mounted() {
-        // 페이지가 로드되고 첫 번째 li 요소의 하위 a 요소를 선택합니다.
+
+        //======== 메뉴 클릭했을때 스타일 변경 ========
         const firstLink = document.querySelector("li:first-child a");
 
-        // 선택한 요소의 배경색을 변경합니다.
         firstLink.style.backgroundColor = "#fff";
         firstLink.style.color = "#000";
         firstLink.style.fontWeight = "bold";
         firstLink.style.height = "80px";
+
     }
 
  };
