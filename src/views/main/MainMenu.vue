@@ -80,7 +80,7 @@
                             <div class="m-body">
                                 <table>
                                     <tbody>
-                                        <tr v-for="(cartVo, i) in cartItems" v-bind:key="i">
+                                        <tr v-for="(cartVo, i) in cartItems" v-bind:key="i"> 
                                             <td>{{cartVo.name}}</td>
                                             <td>
                                                 <button v-on:click="minus(i)">-</button>
@@ -151,6 +151,7 @@
             event.target.style.fontWeight = "bold";
             event.target.style.height = "80px";
 
+            //다시 리스트 불러오기
             this.getList();
 
         },
