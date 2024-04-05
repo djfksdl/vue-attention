@@ -87,7 +87,7 @@
                                                 {{ cartVo.count }}
                                                 <button v-on:click="plus(i)">+</button>
                                             </td>
-                                            <td><button type="button" v-on:click="deleteCartVo(cartVo.no)">삭제</button></td>
+                                            <td><button type="button" v-on:click="deleteCartVo(i)">삭제</button></td>
                                         </tr>
                                         
                                     </tbody>
@@ -226,13 +226,11 @@
         },
 
         //======== 리스트에서 한개 삭제하기 ========
-        deleteCartVo(no){ 
-            const index = this.cartItems.findIndex(item => item.no === no);
-
-            if (index !== -1) {
-                // 해당 항목이 배열에 존재하면 삭제
-                this.cartItems.splice(index, 1);
-            }
+        deleteCartVo(i){ 
+            //배열의 i번째 배열을 찾아서 삭제하기, i번째부터 '1'를 지운다는 뜻(ppt참조)
+            //상품번호를 보낼 필요없이 배열 순서만 보내서 지워도 되서 i를 활용한다. no보내서 db에서 가져와야하는건 no를 가져와야함!
+            this.cartItems.splice(i, 1);
+            
         },
 
         //======== 모달창 띄우기 ========
